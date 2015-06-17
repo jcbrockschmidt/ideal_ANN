@@ -1,51 +1,33 @@
 #!/usr/bin/python3
+"""
+Uses a genetic algorithm to determine the optimal number of layers,
+neurons per each layer, learning rate and training iterations for an ANN given
+a set of training data.
+When running this script via a command line, it can take one optional argument
+for the name of a file to stream output into in place of stdout.
+"""
 
-from ANN import ANN
-from random import seed as srand, randint
-from time import time
+import logging
+import simulate
+import sys
 
-srand(time())
+# Evaluate command line arguments.
+if len(sys.argv) > 1:
+    try:
+        output = open(sys.argv[1], 'w')
+    except IOError:
+        output = sys.stdout
+        output.write("Error: can't open {} for writing")
+        output.write("Output will be pushed to stdout")
+    else:
+        simulate.setOutput(output)
+else:
+    output = sys.stdout
 
-# Test data for a XOR gate
-testData = [
-    [0.1, 0.1, 0.9],
-    [0.1, 0.9, 0.9],
-    [0.9, 0.1, 0.9],
-    [0.9, 0.9, 0.1]
-]
+logging.basicConfig(stream=output, level=logging.DEBUG)
 
-# Create ANN with 2 input neurons, 1 hidden layer with 3 neurons,
-# 1 output neuron, and a learning rate of 10.0
-net = ANN([2, 3, 1], 3.0)
-
-# Train network
-for i in range(10000):
-    #testRow = testData[i % len(testData)]
-    testRow = testData[randint(0, len(testData)-1)]
-    net.feedforward(testRow[:-1])
-
-    # Calculate and display error squared
-    print("err: " + str(net.errSqr(testRow[-1:])))
-
-    net.backpropagate(testRow[-1:])
-
-accuracy = 0.0
-for testRow in testData:
-    net.feedforward(testRow[:-1])
-    accuracy += net.errSqr(testRow[-1:])
-
-    matching = (
-        (testRow[-1] >= 0.45 and net.out[-1] >= 0.45) or
-        (testRow[-1] < 0.45 and net.out[-1] < 0.45)
-    )
-
-    print(str(testRow[0]) +
-          "\t" + str(testRow[1]) +
-          "\t:\t" +
-          str(net.out[0]) + 
-          "\t" +
-          ("GOOD" if matching else "BAD")
-    )
-
-accuracy /= len(testData)
-print("Aggregate accuracy: " + str(accuracy))
+try:
+    simulate.simulate()
+except:
+    logging.exception("Got exception on main handler")
+    raise
