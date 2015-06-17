@@ -235,7 +235,7 @@ class Population:
             c_i += 1
             c.update(self.testData)
             self.avgSqrErr += c.sqrErr
-            if c.sqrErr > self.best_sqrErr.sqrErr:
+            if c.sqrErr < self.best_sqrErr.sqrErr:
                 self.best_sqrErr = c
             if c.fitness > self.best_fit.fitness:
                 self.best_fit = c
