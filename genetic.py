@@ -382,3 +382,4 @@ class Simulation():
         output.write("    Max Fitness:\n")
         output.write("\tGeneration:      {}\n".format(self.best_fit['gen']))
         self.outputChromInfo(self.best_fit['chrom'])
+        output.flush()
