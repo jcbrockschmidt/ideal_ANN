@@ -1,8 +1,9 @@
 import math
 from   random import seed as srand, random as rand
 import sys
-from   time   import time
+from   time import time
 
+output = sys.stdout
 srand(time())
 
 def sigmoid(x):
@@ -25,19 +26,19 @@ class ANN:
             if len(weights) == len(layers):
                 for lyr in range(len(layers)):
                     if len(weights[lyr]) != layers[lyr]:
-                        print("ERROR: invalid weights argument for ANN; there are " +
+                        output.write("ERROR: invalid weights argument for ANN; there are " +
                               str(layers[lyr]) +
                               "neurons in layer " +
                               str(len(layers)) +
-                              "layers; weights will be randomized")
+                              "layers; weights will be randomized\n")
                         weightsDeclared = False
                         break
 
                 self.weights = weights[:]
             else:
-                print("ERROR: invalid weights argument for ANN; there are " +
+                output.write("ERROR: invalid weights argument for ANN; there are " +
                       str(len(layers)) +
-                      "layers; weights will be randomized")
+                      "layers; weights will be randomized\n")
                 weightsDeclared = False
         else:
             weightsDeclared = False
@@ -59,9 +60,9 @@ class ANN:
     def feedforward(self, ins):
         # Validate arguments
         if len(ins) != len(self.inp):
-            print("ERROR: could not feed forward ANN; there are " +
+            output.write("ERROR: could not feed forward ANN; there are " +
                   str(len(self.inp)) +
-                  " input neurons")
+                  " input neurons\n")
             return
 
         # Update input layer
@@ -106,9 +107,9 @@ class ANN:
     def backpropagate(self, target):
         # Validate arguments
         if len(target) != len(self.out):
-            print("ERROR: could not backpropagate ANN; there are " +
+            output.write("ERROR: could not backpropagate ANN; there are " +
                   str(len(self.inp)) +
-                  " input neurons")
+                  " input neurons\n")
             return False
 
         # Calculate output layer error
@@ -175,7 +176,7 @@ class ANN:
     def errSqr(self, target):
         # Validate arguments
         if len(target) != len(self.out):
-            print("ERROR: could not get error squared for ANN; there are " +
+            output.write("ERROR: could not get error squared for ANN; there are " +
                   str(len(self.inp)) +
                   " input neurons")
             return False
