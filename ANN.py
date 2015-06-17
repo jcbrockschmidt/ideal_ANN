@@ -54,10 +54,10 @@ class ANN:
                 for n in range(layers[lyr]):
                     # Add additional weight (+1) for bias.
                     self.weights[lyr].append(
-                        [ ANN._randWeight() for n2 in range(layers[lyr+1]+1) ]
+                        [ self._randWeight() for n2 in range(layers[lyr+1]+1) ]
                     )
 
-    def _randWeight():
+    def _randWeight(self):
         return rand() - 0.5
 
     def feedforward(self, ins):
