@@ -334,6 +334,30 @@ class Simulation():
             self.best_fit['chrom'].fitness) )
         output.flush()
 
+    def outputChromInfo(self, chrom):
+        """
+        self.layers = [inNrns, outNrns]
+        for l in range(randint(*Chromosome.initLayers)):
+            self.addRandLayer()
+        self.learnRate = randint(
+            self.initLearnRate[0]/self.learn_step,
+            self.initLearnRate[1]/self.learn_step ) * self.learn_step
+        self.trainEpochs = randint(*self.initTrainEpochs)
+        self.sqrErr = 1000
+        self.fitness = 0.0
+        """
+        output.write("\tNeurons-Per-Layers:\n")
+        totalNrns = 0
+        for i, nrns in enumerate(chrom.layers):
+            output.write("\t    #{} -> {}\n".format(i, nrns))
+            totalNrns += nrns
+        output.write("\tLayer Count:     {}\n".format(len(chrom.layers)))
+        output.write("\tNeuron Count:    {}\n".format(totalNrns))
+        output.write("\tTraining Epochs: {}\n".format(chrom.trainEpochs))
+        output.write("\tLearning Rate:   {}\n".format(chrom.learnRate))
+        output.write("\tSquared Error:   {}\n".format(chrom.sqrErr))
+        output.write("\tFitness:         {}\n".format(chrom.fitness))
+
     def simulate(self, gens):
         """
         Perform the genetic algorithm. Call self.update() in a loop.
@@ -347,11 +371,14 @@ class Simulation():
             self.update()
             self.outputPopInfo(thisPop)
             # Check for convergance.
-            if thisPop.avgFit / thisPop.best.fitness > 0.98:
+            if thisPop.avgFit / thisPop.best_fit.fitness > 0.98:
                 output.write("Chromosomes have converged. Ending simulation.\n")
                 break
 
-            output.write("Best chromosome found in generation #{}\n".format(
-                self.best['gen']) )
-            output.write("with a fitness of {}.".format(
-                self.best['chrom'].fitness) )
+        output.write("\nAGGREGATE RESULTS:\n")
+        output.write("    Lowest Squared Error:\n")
+        output.write("\tGeneration:      {}\n".format(self.best_sqrErr['gen']))
+        self.outputChromInfo(self.best_sqrErr['chrom'])
+        output.write("    Max Fitness:\n")
+        output.write("\tGeneration:      {}\n".format(self.best_fit['gen']))
+        self.outputChromInfo(self.best_fit['chrom'])
