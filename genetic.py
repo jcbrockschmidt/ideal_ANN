@@ -7,7 +7,7 @@ DOIT:
    parameters for the number of input and output neurons.
 '''
 
-from ANN import ANN
+import ANN
 import math
 from random import random, randint, seed as srand
 import sys
@@ -173,7 +173,7 @@ class Chromosome():
         of the chromosome's number of input and output neurons. First indices
         will be input(s). Last indices will be expected output(s).
         """
-        testANN = ANN(self.layers, self.learnRate)
+        testANN = ANN.ANN(self.layers, self.learnRate)
         # Train ANN.
         i = 0
         for e in range(self.trainEpochs):
