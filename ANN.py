@@ -6,6 +6,9 @@ from   time import time
 output = sys.stdout
 srand(time())
 
+def setOutput(out):
+    output = out
+
 def sigmoid(x):
     return (1.0 / (1.0 + math.exp(-x)))
 
@@ -26,7 +29,7 @@ class ANN:
             if len(weights) == len(layers):
                 for lyr in range(len(layers)):
                     if len(weights[lyr]) != layers[lyr]:
-                        output.write("ERROR: invalid weights argument for ANN; there are " +
+                        output.write("Error: invalid weights argument for ANN; there are " +
                               str(layers[lyr]) +
                               "neurons in layer " +
                               str(len(layers)) +
@@ -36,7 +39,7 @@ class ANN:
 
                 self.weights = weights[:]
             else:
-                output.write("ERROR: invalid weights argument for ANN; there are " +
+                output.write("Error: invalid weights argument for ANN; there are " +
                       str(len(layers)) +
                       "layers; weights will be randomized\n")
                 weightsDeclared = False
@@ -60,7 +63,7 @@ class ANN:
     def feedforward(self, ins):
         # Validate arguments
         if len(ins) != len(self.inp):
-            output.write("ERROR: could not feed forward ANN; there are " +
+            output.write("Error: could not feed forward ANN; there are " +
                   str(len(self.inp)) +
                   " input neurons\n")
             return
@@ -107,7 +110,7 @@ class ANN:
     def backpropagate(self, target):
         # Validate arguments
         if len(target) != len(self.out):
-            output.write("ERROR: could not backpropagate ANN; there are " +
+            output.write("Error: could not backpropagate ANN; there are " +
                   str(len(self.inp)) +
                   " input neurons\n")
             return False
@@ -176,7 +179,7 @@ class ANN:
     def errSqr(self, target):
         # Validate arguments
         if len(target) != len(self.out):
-            output.write("ERROR: could not get error squared for ANN; there are " +
+            output.write("Error: could not get error squared for ANN; there are " +
                   str(len(self.inp)) +
                   " input neurons")
             return False
