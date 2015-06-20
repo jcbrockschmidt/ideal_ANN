@@ -363,11 +363,7 @@ class Simulation():
         """
         Perform the genetic algorithm. Call self.update() in a loop.
         """
-        for g in range(int(gens/4)):
-            thisPop = self.pops[self.curPop]
-            self.update()
-            self.outputPopInfo(thisPop)
-        for g in range(int(gens/4), gens):
+        for g in range(gens):
             thisPop = self.pops[self.curPop]
             self.update()
             self.outputPopInfo(thisPop)
