@@ -159,13 +159,14 @@ class Chromosome():
     # All lambdas are transformations of a logistic function
     # mirrored across the y-axis
     # Modify the dividend to change the impact of a fitness lambda.
-    _fit_sqrErr  = lambda self,x: 20 / (1 + math.exp(x*8 - 4))
-    _fit_layers  = lambda self,x: 12 / (1 + math.exp(x*1.6 - 6))
-    _fit_hidNrns = lambda self,x: 8 / (1 + math.exp(x*0.8 - 14))
-    _fit_trainEpochs = lambda self,x: 4 / (1 + math.exp(x*0.00008 - 5))
+    _fit_sqrErr  = lambda self,x: 5 / (1 + math.exp(x*8 - 4))
+    _fit_layers  = lambda self,x: 3 / (1 + math.exp(x*1.6 - 6))
+    _fit_hidNrns = lambda self,x: 2 / (1 + math.exp(x*0.8 - 14))
+    _fit_trainEpochs = lambda self,x: 1 / (1 + math.exp(x*0.00008 - 5))
+    _fitPow = 10
     maxFit = (_fit_sqrErr(None, 0) + _fit_layers(None, 2) +
               _fit_hidNrns(None, 0) + _fit_trainEpochs(None, minTrainEpochs)
-    )
+    ) ** _fitPow
     def update(self, testData):
         """
         Updates chromosome's ANN based on changes made to layers.
@@ -199,6 +200,7 @@ class Chromosome():
         self.fitness = self._fit_sqrErr(self.sqrErr)
         self.fitness += self._fit_layers(len(self.layers))
         self.fitness += self._fit_hidNrns(totalNrns)
+        self.fitness **= self._fitPow
 
 class Population:
     """
