@@ -4,8 +4,9 @@ import sys
 output = sys.stdout
 
 def setOutput(out):
+    global output
     output = out
-    genetic.setOutput(output)
+    genetic.setOutput(out)
 
 # Test data for a XOR gate
 testData = (
@@ -16,5 +17,5 @@ testData = (
 )
 
 def simulate():
-    sim = genetic.Simulation(2, 1, testData, 100)
-    sim.simulate(100)
+    sim = genetic.Simulation(2, 1, testData, 200)
+    sim.simulate(30)
