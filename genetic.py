@@ -164,6 +164,7 @@ class Chromosome():
     _fit_hidNrns = lambda self,x: 2 / (1 + math.exp(x*0.8 - 14))
     _fit_trainEpochs = lambda self,x: 1 / (1 + math.exp(x*0.00008 - 5))
     _fitPow = 10
+    _fitDiv = 10**7
     maxFit = (_fit_sqrErr(None, 0) + _fit_layers(None, 2) +
               _fit_hidNrns(None, 0) + _fit_trainEpochs(None, minTrainEpochs)
     ) ** _fitPow
@@ -201,6 +202,7 @@ class Chromosome():
         self.fitness += self._fit_layers(len(self.layers))
         self.fitness += self._fit_hidNrns(totalNrns)
         self.fitness **= self._fitPow
+        self.fitness /= self._fitDiv
 
 class Population:
     """
